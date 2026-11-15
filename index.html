@@ -80,6 +80,7 @@
     .menu-principal { width: min(100%,980px); display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.4rem; }
     .boton-seccion { min-height: 230px; padding: 1.6rem; display: grid; align-content: center; justify-items: center; gap: .75rem; color: var(--azul-oscuro); text-align: center; border: 1px solid rgba(255,255,255,.6); border-radius: 24px; background: rgba(255,255,255,.92); box-shadow: 0 14px 30px rgba(15,23,42,.22); cursor: pointer; transition: transform .25s ease,background .25s ease,box-shadow .25s ease; }
     .boton-seccion:hover { transform: translateY(-8px); background: #fff; box-shadow: 0 22px 40px rgba(15,23,42,.32); }
+    .boton-seccion:focus-visible, .boton-juegos:focus-visible { outline: 3px solid #ffdc73; outline-offset: 4px; }
     .numero-seccion { display: grid; place-items: center; width: 70px; height: 70px; border-radius: 50%; color: var(--blanco); background: linear-gradient(135deg,var(--azul-medio),var(--azul-claro)); font-size: 2rem; font-weight: 700; }
     .boton-seccion strong { font-size: clamp(1.3rem,2.2vw,1.75rem); }
     .boton-seccion small { color: var(--gris-oscuro); font-size: .95rem; }
@@ -104,6 +105,7 @@
     .proyecto-card h2 { margin: 0; font-size: clamp(1.6rem,3vw,2.2rem); }
     .subtitulo { margin: .7rem 0 1rem; color: var(--gris-oscuro); font-size: 1.1rem; }
     .proyecto-vacio { min-height: 130px; display: grid; place-items: center; padding: 1.3rem; border: 2px dashed #bfd3eb; border-radius: 18px; color: var(--gris-oscuro); background: rgba(237,245,253,.7); }
+    .boton-juegos { width: min(100%,460px); min-height: 190px; margin: 1rem auto 0; }
     .otros-lista { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
     .otro-item { min-height: 160px; display: grid; align-content: center; justify-items: center; gap: .6rem; padding: 1.25rem; border: 1px solid rgba(255,255,255,.7); border-radius: 20px; background: rgba(255,255,255,.94); box-shadow: 0 12px 30px var(--sombra); text-align: center; }
     .otro-item strong { font-size: 1.25rem; }
@@ -112,6 +114,7 @@
     @media (max-width: 760px) {
       .menu-principal { grid-template-columns: 1fr; max-width: 460px; }
       .boton-seccion { min-height: 155px; }
+      .boton-juegos { min-height: 155px; }
       .numero-seccion { width: 58px; height: 58px; font-size: 1.7rem; }
       .proyectos { grid-template-columns: 1fr; }
       .otros-lista { grid-template-columns: 1fr; max-width: 460px; }
@@ -183,7 +186,17 @@
     <section class="vista vista-interior" id="vista-otros" aria-labelledby="titulo-otros" hidden>
       <div class="barra-navegacion"><button class="boton-volver" type="button" aria-label="Volver al menú">←</button></div>
       <h1 id="titulo-otros" tabindex="-1">Otros</h1>
-      <div class="otros-lista" aria-label="Juegos">
+      <button class="boton-seccion boton-juegos" type="button" data-vista="juegos">
+        <span class="numero-seccion">🎮</span>
+        <strong>Juegos</strong>
+        <small>Entra para ver los juegos</small>
+      </button>
+    </section>
+
+    <section class="vista vista-interior" id="vista-juegos" aria-labelledby="titulo-juegos" hidden>
+      <div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="otros" aria-label="Volver a Otros">←</button></div>
+      <h1 id="titulo-juegos" tabindex="-1">Juegos</h1>
+      <div class="otros-lista" aria-label="Juegos disponibles">
         <article class="otro-item"><strong>Juego 1</strong><span>Próximamente</span></article>
         <article class="otro-item"><strong>Juego 2</strong><span>Próximamente</span></article>
         <article class="otro-item"><strong>Juego 3</strong><span>Próximamente</span></article>
@@ -198,7 +211,8 @@
       inicio: document.getElementById('vista-inicio'),
       'sobre-mi': document.getElementById('vista-sobre-mi'),
       proyectos: document.getElementById('vista-proyectos'),
-      otros: document.getElementById('vista-otros')
+      otros: document.getElementById('vista-otros'),
+      juegos: document.getElementById('vista-juegos')
     };
 
     function mostrarVista(nombre) {
@@ -226,8 +240,12 @@
 
     document.querySelectorAll('.boton-volver').forEach((boton) => {
       boton.addEventListener('click', () => {
-        mostrarVista('inicio');
-        document.querySelector('#vista-inicio .boton-seccion').focus();
+        const destino = boton.dataset.volver || 'inicio';
+        mostrarVista(destino);
+        const elementoEnfoque = destino === 'otros'
+          ? document.querySelector('#vista-otros .boton-juegos')
+          : document.querySelector('#vista-inicio .boton-seccion');
+        elementoEnfoque.focus();
       });
     });
   </script>
