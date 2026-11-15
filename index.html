@@ -115,7 +115,22 @@
 
     .panel-juego { max-width: 850px; margin: 0 auto; padding: 1.25rem; border: 1px solid rgba(255,255,255,.65); border-radius: 24px; background: rgba(255,255,255,.94); box-shadow: 0 14px 32px var(--sombra); text-align: center; }
     .marcador { margin: 0 0 1rem; color: var(--azul-medio); font-size: 1.35rem; font-weight: 700; }
-    .zona-estrellas { position: relative; min-height: 380px; overflow: hidden; border: 2px solid rgba(255,255,255,.55); border-radius: 18px; background-color: #101a3c; background-image: radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.8px), radial-gradient(circle, rgba(193,215,255,.8) 1px, transparent 1.8px), linear-gradient(180deg,#101a3c,#283c70); background-size: 47px 43px, 73px 67px, 100% 100%; background-position: 7px 12px, 28px 31px, 0 0; animation: estrellas-se-desplazan 35s linear infinite; }
+    .zona-estrellas {
+      position: relative; min-height: 380px; overflow: hidden; border: 2px solid rgba(255,255,255,.55); border-radius: 18px;
+      background-color: #01040d;
+      background-image:
+        radial-gradient(ellipse at 50% 60%, rgba(255,244,202,0.9) 0 2%, rgba(255,227,149,0.7) 8%, rgba(184,123,101,0.25) 16%, rgba(90,55,100,0.18) 23%, transparent 28%),
+        radial-gradient(ellipse at 50% 53%, rgba(255,255,255,0.9) 0 1.2%, transparent 2.1%),
+        radial-gradient(circle at 20% 20%, rgba(255,255,255,0.9) 0 1.4%, transparent 2.2%),
+        radial-gradient(circle at 78% 24%, rgba(255,255,255,0.9) 0 1.2%, transparent 2%),
+        radial-gradient(circle at 52% 72%, rgba(255,255,255,0.9) 0 1.5%, transparent 2.3%),
+        radial-gradient(circle at 35% 60%, rgba(255,255,255,0.8) 0 1.3%, transparent 2.2%),
+        radial-gradient(circle at 68% 38%, rgba(255,255,255,0.8) 0 1.4%, transparent 2.4%),
+        linear-gradient(90deg, rgba(0,0,0,0.12), rgba(255,255,255,0.04), rgba(0,0,0,0.18));
+      background-size: 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+      box-shadow: inset 0 0 30px rgba(0,0,0,.65);
+      animation: estrellas-se-desplazan 35s linear infinite;
+    }
     .estrella-clic { position: absolute; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 0; background: transparent; color: #ffdf57; font-size: 2.6rem; line-height: 1; cursor: pointer; filter: drop-shadow(0 0 10px rgba(255,220,70,.85)); transform: translate(-50%,-50%); transition: transform .15s ease; }
     .estrella-clic:hover { transform: translate(-50%,-50%) scale(1.25); }
     .estrella-clic:focus-visible { outline: 2px solid white; outline-offset: 2px; border-radius: 50%; }
@@ -146,7 +161,7 @@
     @keyframes sol-desciende { from { transform: translateY(-5px); } to { transform: translateY(70px); } }
     @keyframes nubes-viajan { from { translate: 0 0; } to { translate: calc(100vw + 400px) 0; } }
     @keyframes montanas-se-mueven { from { background-position: 0 0,150px 0; } to { background-position: 55px 0,90px 0; } }
-    @keyframes estrellas-se-desplazan { from { background-position: 7px 12px,28px 31px,0 0; } to { background-position: 54px 55px,101px 98px,0 0; } }
+    @keyframes estrellas-se-desplazan { from { background-position: 7px 12px, 28px 31px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; } to { background-position: 54px 55px, 101px 98px, 0 0, 0 0, 0 0, 0 0, 0 0, 0 0; } }
   </style>
 </head>
 <body>
