@@ -110,6 +110,16 @@
     .otro-item { min-height: 160px; display: grid; align-content: center; justify-items: center; gap: .6rem; padding: 1.25rem; border: 1px solid rgba(255,255,255,.7); border-radius: 20px; background: rgba(255,255,255,.94); box-shadow: 0 12px 30px var(--sombra); text-align: center; }
     .otro-item strong { font-size: 1.25rem; }
     .otro-item span { color: var(--gris-oscuro); }
+    .juego-enlace { width: 100%; padding: 0; border: 0; color: inherit; font: inherit; cursor: pointer; }
+    .juego-enlace:hover { transform: translateY(-4px); background: #fff; }
+    .juego-enlace:focus-visible { outline: 3px solid #ffdc73; outline-offset: 4px; }
+    .panel-juego { max-width: 850px; margin: 0 auto; padding: 1.25rem; border: 1px solid rgba(255,255,255,.65); border-radius: 24px; background: rgba(255,255,255,.94); box-shadow: 0 14px 32px var(--sombra); text-align: center; }
+    .marcador { margin: 0 0 1rem; color: var(--azul-medio); font-size: 1.35rem; font-weight: 700; }
+    .zona-estrellas { position: relative; min-height: 380px; overflow: hidden; border: 2px solid rgba(255,255,255,.55); border-radius: 18px; background-color: #101a3c; background-image: radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.8px), radial-gradient(circle, rgba(193,215,255,.8) 1px, transparent 1.8px), linear-gradient(180deg,#101a3c,#283c70); background-size: 47px 43px, 73px 67px, 100% 100%; background-position: 7px 12px, 28px 31px, 0 0; }
+    .estrella-clic { position: absolute; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 0; background: transparent; color: #ffdf57; font-size: 2.6rem; line-height: 1; cursor: pointer; filter: drop-shadow(0 0 10px rgba(255,220,70,.85)); transform: translate(-50%,-50%); transition: transform .15s ease; }
+    .estrella-clic:hover { transform: translate(-50%,-50%) scale(1.25); }
+    .estrella-clic:focus-visible { outline: 2px solid white; outline-offset: 2px; border-radius: 50%; }
+    .instruccion-juego { margin: 1rem 0 .25rem; color: var(--gris-oscuro); }
 
     @media (max-width: 760px) {
       .menu-principal { grid-template-columns: 1fr; max-width: 460px; }
@@ -120,6 +130,7 @@
       .otros-lista { grid-template-columns: 1fr; max-width: 460px; }
       .otro-item { min-height: 125px; }
       .tablero h1 { max-width: 100%; font-size: clamp(2rem,8vw,3.2rem); }
+      .zona-estrellas { min-height: 55vh; }
       main { padding: 1.25rem 1rem 3rem; }
     }
     @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
@@ -197,9 +208,23 @@
       <div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="otros" aria-label="Volver a Otros">←</button></div>
       <h1 id="titulo-juegos" tabindex="-1">Juegos</h1>
       <div class="otros-lista" aria-label="Juegos disponibles">
-        <article class="otro-item"><strong>Juego 1</strong><span>Próximamente</span></article>
+        <button class="otro-item juego-enlace" type="button" data-vista="juego-estrellas" aria-label="Jugar a Cazaestrellas">
+          <strong>⭐ Cazaestrellas</strong><span>Pulsa las estrellas amarillas y suma puntos</span>
+        </button>
         <article class="otro-item"><strong>Juego 2</strong><span>Próximamente</span></article>
         <article class="otro-item"><strong>Juego 3</strong><span>Próximamente</span></article>
+      </div>
+    </section>
+
+    <section class="vista vista-interior" id="vista-juego-estrellas" aria-labelledby="titulo-juego-estrellas" hidden>
+      <div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="juegos" aria-label="Volver a la lista de juegos">←</button></div>
+      <h1 id="titulo-juego-estrellas" tabindex="-1">Cazaestrellas</h1>
+      <div class="panel-juego">
+        <p class="marcador" aria-live="polite">Puntos: <span id="puntuacion">0</span></p>
+        <div class="zona-estrellas" id="zona-estrellas" aria-label="Cielo de juego. Pulsa las estrellas amarillas para sumar puntos.">
+          <button class="estrella-clic" id="estrella-clic" type="button" aria-label="Pulsar estrella para sumar un punto">★</button>
+        </div>
+        <p class="instruccion-juego">¡Pulsa las estrellas amarillas que aparecen para sumar puntos!</p>
       </div>
     </section>
   </main>
@@ -212,7 +237,8 @@
       'sobre-mi': document.getElementById('vista-sobre-mi'),
       proyectos: document.getElementById('vista-proyectos'),
       otros: document.getElementById('vista-otros'),
-      juegos: document.getElementById('vista-juegos')
+      juegos: document.getElementById('vista-juegos'),
+      'juego-estrellas': document.getElementById('vista-juego-estrellas')
     };
 
     function mostrarVista(nombre) {
@@ -229,12 +255,13 @@
       document.querySelector('#vista-inicio .boton-seccion').focus();
     });
 
-    document.querySelectorAll('.boton-seccion').forEach((boton) => {
+    document.querySelectorAll('.boton-seccion, .juego-enlace').forEach((boton) => {
       boton.addEventListener('click', () => {
         const destino = boton.dataset.vista;
         mostrarVista(destino);
         const titulo = document.getElementById(`titulo-${destino}`);
         if (titulo) titulo.focus();
+        if (destino === 'juego-estrellas') document.getElementById('estrella-clic').focus();
       });
     });
 
@@ -242,12 +269,36 @@
       boton.addEventListener('click', () => {
         const destino = boton.dataset.volver || 'inicio';
         mostrarVista(destino);
-        const elementoEnfoque = destino === 'otros'
-          ? document.querySelector('#vista-otros .boton-juegos')
-          : document.querySelector('#vista-inicio .boton-seccion');
-        elementoEnfoque.focus();
+        const selectorEnfoque = {
+          otros: '#vista-otros .boton-juegos',
+          juegos: '#vista-juegos .juego-enlace',
+          inicio: '#vista-inicio .boton-seccion'
+        }[destino];
+        document.querySelector(selectorEnfoque).focus();
       });
     });
+
+    const zonaEstrellas = document.getElementById('zona-estrellas');
+    const estrellaClic = document.getElementById('estrella-clic');
+    const puntuacion = document.getElementById('puntuacion');
+    let puntos = 0;
+
+    function moverEstrella() {
+      const margen = 32;
+      const x = margen + Math.random() * Math.max(0, zonaEstrellas.clientWidth - margen * 2);
+      const y = margen + Math.random() * Math.max(0, zonaEstrellas.clientHeight - margen * 2);
+      estrellaClic.style.left = `${x}px`;
+      estrellaClic.style.top = `${y}px`;
+    }
+
+    estrellaClic.addEventListener('click', () => {
+      puntos += 1;
+      puntuacion.textContent = puntos;
+      moverEstrella();
+    });
+
+    window.addEventListener('resize', moverEstrella);
+    moverEstrella();
   </script>
 </body>
 </html>
