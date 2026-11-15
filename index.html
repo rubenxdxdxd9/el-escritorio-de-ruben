@@ -99,6 +99,12 @@
     .planta-btn[aria-pressed="true"] { border-color:var(--azul-medio); background:#edf5fd; font-weight:700; }
     .planta-btn:focus-visible { outline:3px solid #ffdc73; outline-offset:2px; }
     .planta-btn::after { content:""; position:absolute; inset:0; background:rgba(15,23,42,.35); transform-origin:left; transform:scaleX(var(--carga,0)); pointer-events:none; }
+    .selector-nivel { display:flex; flex-wrap:wrap; gap:.6rem; justify-content:center; margin:1rem 0 .5rem; }
+    .nivel-btn { display:grid; gap:.1rem; padding:.6rem 1.1rem; border:2px solid #bfd3eb; border-radius:14px; color:var(--azul-oscuro); background:#fff; font:inherit; font-weight:700; cursor:pointer; }
+    .nivel-btn small { color:var(--gris-oscuro); font-weight:400; }
+    .nivel-btn[aria-checked="true"] { border-color:var(--azul-medio); background:#edf5fd; }
+    .nivel-btn:focus-visible { outline:3px solid #ffdc73; outline-offset:2px; }
+    .descripcion-nivel { max-width:520px; min-height:3.2em; margin:.5rem auto 1.25rem; color:var(--gris-oscuro); line-height:1.5; }
     .lienzo-jardin { display:block; width:100%; height:auto; border-radius:14px; background:#6f9f4a; cursor:pointer; touch-action:manipulation; }
     @media (max-width:760px) { .menu-principal { grid-template-columns:1fr; max-width:460px; } .boton-seccion,.boton-juegos { min-height:155px; } .numero-seccion { width:58px; height:58px; font-size:1.7rem; } .proyectos { grid-template-columns:1fr; } .otros-lista { grid-template-columns:1fr; max-width:460px; } .otro-item { min-height:125px; } .tablero h1 { max-width:100%; font-size:clamp(2rem,8vw,3.2rem); } .zona-estrellas { min-height:55vh; } main { padding:1.25rem 1rem 3rem; } }
     @media (prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; scroll-behavior:auto !important; } }
@@ -122,8 +128,8 @@
     <section class="vista vista-interior" id="vista-juegos" aria-labelledby="titulo-juegos" hidden><div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="otros" aria-label="Volver a Otros">←</button></div><h1 id="titulo-juegos" tabindex="-1">Juegos</h1><div class="otros-lista" aria-label="Juegos disponibles"><button class="otro-item juego-enlace" type="button" data-vista="juego-instrucciones" aria-label="Ver reglas de Cazaestrellas"><strong>⭐ Cazaestrellas</strong><span>Pulsa las estrellas amarillas y suma puntos</span></button><button class="otro-item juego-enlace juego-jardin" type="button" data-vista="jardin-instrucciones" aria-label="Ver reglas de Defensa del huerto"><strong>🌵 Defensa del huerto</strong><span>Planta defensas y frena a los bichos</span></button><article class="otro-item"><strong>Juego 3</strong><span>Próximamente</span></article></div></section>
     <section class="vista vista-interior" id="vista-juego-instrucciones" aria-labelledby="titulo-juego-instrucciones" hidden><div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="juegos" aria-label="Volver a la lista de juegos">←</button></div><h1 id="titulo-juego-instrucciones" tabindex="-1">Cazaestrellas</h1><div class="panel reglas-juego"><h2>Reglas del juego</h2><ul><li>Pulsa las estrellas amarillas para sumar puntos.</li><li>Cada estrella amarilla suma 1 punto.</li><li>La estrella fugaz aparece de vez en cuando: púlsala antes de que cruce la pantalla para ganar 5 puntos.</li><li>Tienes 1 minuto para conseguir la mayor puntuación posible.</li></ul><p class="mejor-puntuacion">Mejor puntuación: <span id="mejor-puntuacion">0</span></p><button class="btn btn-iniciar-juego" type="button" id="iniciar-juego">Iniciar juego</button></div></section>
     <section class="vista vista-interior" id="vista-juego-estrellas" aria-labelledby="titulo-juego-estrellas" hidden><div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="juego-instrucciones" aria-label="Volver a las reglas">←</button></div><h1 id="titulo-juego-estrellas" tabindex="-1">Cazaestrellas</h1><div class="panel-juego"><p class="marcador" aria-live="polite"><span>Tiempo: <span id="tiempo-restante">60</span> s</span><span>Puntos: <span id="puntuacion">0</span></span></p><div class="zona-estrellas" id="zona-estrellas" aria-label="Cielo de juego. Pulsa las estrellas amarillas para sumar puntos."><button class="estrella-clic" id="estrella-clic" type="button" aria-label="Pulsar estrella para sumar un punto">★</button><button class="estrella-fugaz" id="estrella-fugaz" type="button" aria-label="Estrella fugaz: pulsa para ganar cinco puntos" hidden>✦</button></div><p class="instruccion-juego">Pulsa las estrellas amarillas y atrapa las fugaces para sumar puntos.</p><p class="estado-juego" id="estado-juego" aria-live="polite"></p></div></section>
-    <section class="vista vista-interior" id="vista-jardin-instrucciones" aria-labelledby="titulo-jardin-instrucciones" hidden><div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="juegos" aria-label="Volver a la lista de juegos">←</button></div><h1 id="titulo-jardin-instrucciones" tabindex="-1">Defensa del huerto</h1><div class="panel reglas-juego"><h2>Reglas del juego</h2><ul><li>Elige una planta de la tienda y pulsa una casilla del huerto para plantarla.</li><li>Recoge las gotas 💧 que caen para conseguir energía (+25 cada una).</li><li>🌵 Cactus: dispara pinchos (50). 🌷 Tulipán: produce gotas (25). 🌰 Castaña: aguanta muchos mordiscos (50).</li><li>Las orugas 🐛 y los caracoles 🐌 avanzan por las filas comiéndose tus plantas.</li><li>Después de plantar, esa planta tarda 5 segundos en recargarse (lo verás en su botón).</li><li>Aguanta 90 segundos sin que ningún bicho llegue a la casa.</li></ul><button class="btn btn-iniciar-juego" type="button" id="iniciar-jardin">Iniciar juego</button></div></section>
-    <section class="vista vista-interior" id="vista-jardin-juego" aria-labelledby="titulo-jardin-juego" hidden><div class="barra-navegacion"><button class="boton-volver volver-jardin" type="button" data-volver="jardin-instrucciones" aria-label="Volver a las reglas">←</button></div><h1 id="titulo-jardin-juego" tabindex="-1">Defensa del huerto</h1><div class="panel-juego"><p class="marcador"><span>Energía: <span id="jardin-energia">100</span></span><span>Tiempo: <span id="jardin-tiempo">90</span> s</span></p><div class="tienda-jardin" role="group" aria-label="Tienda de plantas"><button class="planta-btn" type="button" data-planta="pincho" aria-pressed="true">🌵 Cactus · 50</button><button class="planta-btn" type="button" data-planta="tulipan" aria-pressed="false">🌷 Tulipán · 25</button><button class="planta-btn" type="button" data-planta="castana" aria-pressed="false">🌰 Castaña · 50</button></div><canvas class="lienzo-jardin" id="lienzo-jardin" width="720" height="400" aria-label="Huerto de juego: pulsa una casilla para plantar o una gota para recogerla"></canvas><p class="estado-juego" id="jardin-estado" aria-live="polite"></p></div></section>
+    <section class="vista vista-interior" id="vista-jardin-instrucciones" aria-labelledby="titulo-jardin-instrucciones" hidden><div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="juegos" aria-label="Volver a la lista de juegos">←</button></div><h1 id="titulo-jardin-instrucciones" tabindex="-1">Defensa del huerto</h1><div class="panel reglas-juego"><h2>Reglas del juego</h2><ul><li>Elige una planta de la tienda y pulsa una casilla del huerto para plantarla.</li><li>Recoge las gotas 💧 que caen para conseguir energía (+25 cada una).</li><li>🌵 Cactus: dispara pinchos (50). 🌷 Tulipán: produce gotas (25). 🌰 Castaña: aguanta muchos mordiscos (50).</li><li>Las orugas 🐛 y los caracoles 🐌 avanzan por las filas comiéndose tus plantas.</li><li>Desde el nivel 2 también sale la 🐍 culebra (rápida, resistente y dañina). En el nivel 3 hay además 🐸 ranas: lentas, con mucha vida y capaces de saltar a otra fila (el salto no las hace avanzar).</li><li>Con la 🪏 Pala de la tienda puedes pulsar una planta para quitarla (no devuelve energía).</li><li>Después de plantar, esa planta tarda 5 segundos en recargarse (lo verás en su botón).</li><li>Ganas cuando termina la oleada (el tiempo de cada nivel) y has eliminado a todos los bichos, sin que ninguno llegue a la casa.</li></ul><div class="selector-nivel" role="radiogroup" aria-label="Nivel de dificultad"><button class="nivel-btn" type="button" role="radio" aria-checked="true" data-nivel="1">Nivel 1<small>Fácil</small></button><button class="nivel-btn" type="button" role="radio" aria-checked="false" data-nivel="2">Nivel 2<small>Medio</small></button><button class="nivel-btn" type="button" role="radio" aria-checked="false" data-nivel="3">Nivel 3<small>Difícil</small></button></div><p class="descripcion-nivel" id="descripcion-nivel" aria-live="polite"></p><button class="btn btn-iniciar-juego" type="button" id="iniciar-jardin">Iniciar juego</button></div></section>
+    <section class="vista vista-interior" id="vista-jardin-juego" aria-labelledby="titulo-jardin-juego" hidden><div class="barra-navegacion"><button class="boton-volver volver-jardin" type="button" data-volver="jardin-instrucciones" aria-label="Volver a las reglas">←</button></div><h1 id="titulo-jardin-juego" tabindex="-1">Defensa del huerto</h1><div class="panel-juego"><p class="marcador"><span>Energía: <span id="jardin-energia">100</span></span><span id="jardin-reloj">Oleada: 90 s</span></p><div class="tienda-jardin" role="group" aria-label="Tienda de plantas"><button class="planta-btn" type="button" data-planta="pincho" aria-pressed="true">🌵 Cactus · 50</button><button class="planta-btn" type="button" data-planta="tulipan" aria-pressed="false">🌷 Tulipán · 25</button><button class="planta-btn" type="button" data-planta="castana" aria-pressed="false">🌰 Castaña · 50</button><button class="planta-btn" type="button" data-planta="cereza" data-nivel="2" aria-pressed="false" hidden>🍒 Cereza · 100</button><button class="planta-btn" type="button" data-planta="seta" data-nivel="3" aria-pressed="false" hidden>🍄 Seta · 100</button><button class="planta-btn" type="button" data-planta="pala" aria-pressed="false">🪏 Pala</button></div><canvas class="lienzo-jardin" id="lienzo-jardin" width="720" height="400" aria-label="Huerto de juego: pulsa una casilla para plantar o una gota para recogerla"></canvas><p class="estado-juego" id="jardin-estado" aria-live="polite"></p></div></section>
   </main>
   <script>
     const pantallaInicio=document.getElementById('pantalla-inicio'),contenido=document.getElementById('contenido');
@@ -148,37 +154,54 @@
     /* ===== Defensa del huerto ===== */
     vistas['jardin-instrucciones']=document.getElementById('vista-jardin-instrucciones');
     vistas['jardin-juego']=document.getElementById('vista-jardin-juego');
-    const lienzoJ=document.getElementById('lienzo-jardin'),ctxJ=lienzoJ.getContext('2d'),energiaJ=document.getElementById('jardin-energia'),tiempoJ=document.getElementById('jardin-tiempo'),estadoJ=document.getElementById('jardin-estado');
+    const lienzoJ=document.getElementById('lienzo-jardin'),ctxJ=lienzoJ.getContext('2d'),energiaJ=document.getElementById('jardin-energia'),tiempoJ=document.getElementById('jardin-reloj'),estadoJ=document.getElementById('jardin-estado');
     const FJ=5,CJ=9,TJ=80,DURACION=90,RECARGA=5;
-    const plantasJ={pincho:{e:'🌵',coste:50,vida:60,cd:1.2},tulipan:{e:'🌷',coste:25,vida:40,cd:10},castana:{e:'🌰',coste:50,vida:300,cd:0}};
-    const bichosJ={oruga:{e:'🐛',vida:4,vel:.22,dano:10},caracol:{e:'🐌',vida:10,vel:.11,dano:14}};
-    let jj=null,rafJ=0,ultimoJ=0,selJ='pincho',msgJ=null;
+    const NIVELES={
+      1:{dur:90,ini:4,sig:5,ramp:25,min:1.2,c0:.1,cMax:.45,vel:1,vidaMul:1,gota:6,doble:false},
+      2:{dur:100,ini:4,pCul:.15,sig:4,ramp:40,min:1.2,c0:.15,cMax:.55,vel:1.15,vidaMul:1.25,gota:7,doble:false},
+      3:{dur:120,ini:12,pCul:.18,pRana:.12,sig:5.5,ramp:22,min:1.5,c0:.2,cMax:.55,vel:1.1,vidaMul:1.3,gota:7,doble:true}
+    };
+    const descNivel={1:'Nivel 1 · oleada de 90 segundos. Plantas: cactus, tulipán y castaña.',2:'Nivel 2 · oleada de 100 segundos. Más bichos, más rápidos y más duros. Nueva planta: 🍒 cereza explosiva, que explota y elimina a los bichos cercanos. Aparece la 🐍 culebra, más rápida, dura y dañina.',3:'Nivel 3 · oleada de 120 segundos. Muchísimos bichos, a veces en pareja. Nueva planta: 🍄 seta, que dispara esporas de corto alcance que atraviesan a los enemigos. Además de culebras, salen 🐸 ranas: lentas, con mucha vida y que cambian de fila saltando.'};
+    const plantasJ={pincho:{e:'🌵',coste:50,vida:60,cd:1.2,rec:RECARGA},tulipan:{e:'🌷',coste:25,vida:40,cd:9.3,rec:RECARGA},castana:{e:'🌰',coste:50,vida:300,cd:0,rec:RECARGA},seta:{e:'🍄',coste:100,vida:40,cd:1.2,rec:RECARGA},cereza:{e:'🍒',coste:100,vida:60,cd:1.2,rec:15}};
+    const bichosJ={oruga:{e:'🐛',vida:4,vel:.22,dano:10},caracol:{e:'🐌',vida:10,vel:.11,dano:14},culebra:{e:'🐍',vida:8,vel:.34,dano:18},rana:{e:'🐸',vida:16,vel:.08,dano:12}};
+    let jj=null,rafJ=0,ultimoJ=0,selJ='pincho',msgJ=null,nivelJ=1;
     function avisoJ(texto){estadoJ.textContent=texto;clearTimeout(msgJ);msgJ=setTimeout(()=>{if(jj&&jj.activo)estadoJ.textContent='';},1500);}
-    function iniciarJardin(){cancelAnimationFrame(rafJ);jj={t:0,energia:100,plantas:[],bichos:[],bolas:[],gotas:[],sig:4,sigGota:3,activo:true,recarga:{pincho:0,tulipan:0,castana:0}};estadoJ.textContent='';ultimoJ=performance.now();rafJ=requestAnimationFrame(bucleJardin);}
+    function iniciarJardin(){cancelAnimationFrame(rafJ);jj={t:0,energia:100,plantas:[],bichos:[],bolas:[],gotas:[],sig:NIVELES[nivelJ].ini,sigGota:3,activo:true,recarga:{pincho:0,tulipan:0,castana:0,seta:0,cereza:0},niv:NIVELES[nivelJ],efectos:[]};estadoJ.textContent='';ultimoJ=performance.now();rafJ=requestAnimationFrame(bucleJardin);}
     function pararJardin(){if(jj)jj.activo=false;cancelAnimationFrame(rafJ);}
-    function finJardin(texto){jj.activo=false;cancelAnimationFrame(rafJ);estadoJ.textContent=`${texto} Aguantaste ${Math.floor(Math.min(jj.t,DURACION))} s.`;}
+    function finJardin(texto){jj.activo=false;cancelAnimationFrame(rafJ);estadoJ.textContent=`${texto} Aguantaste ${Math.floor(jj.t)} s.`;}
     function pasoJardin(dt){
       jj.t+=dt;
       for(const k in jj.recarga)jj.recarga[k]=Math.max(0,jj.recarga[k]-dt);
+      jj.efectos.forEach(x=>x.t+=dt);jj.efectos=jj.efectos.filter(x=>x.t<.5);
       jj.plantas.forEach(p=>{p.edad+=dt;p.retro=Math.max(0,p.retro-dt);p.golpe=Math.max(0,p.golpe-dt);});
-      if(jj.t>=DURACION){finJardin('¡Has defendido el huerto!');return;}
+      if(jj.t>=jj.niv.dur&&jj.bichos.length===0){finJardin('¡Has defendido el huerto!');return;}
       jj.sig-=dt;
-      if(jj.sig<=0){const tipo=Math.random()<Math.min(.1+jj.t/200,.45)?'caracol':'oruga';jj.bichos.push({x:CJ*TJ+20,f:Math.floor(Math.random()*FJ),t:tipo,vida:bichosJ[tipo].vida});jj.sig=Math.max(1.2,5-jj.t/25)*(.7+Math.random()*.6);}
+      if(jj.sig<=0&&jj.t<jj.niv.dur){const n=jj.niv,veces=n.doble&&Math.random()<.2?2:1;for(let i=0;i<veces;i++){const pr=jj.t>60?(n.pRana||0):0,pcu=jj.t>30?(n.pCul||0):0,r=Math.random(),tipo=r<pr?'rana':r<pr+pcu?'culebra':(Math.random()<Math.min(n.c0+jj.t/200,n.cMax)?'caracol':'oruga'),vida=Math.round(bichosJ[tipo].vida*n.vidaMul);jj.bichos.push({x:CJ*TJ+20+i*30,f:Math.floor(Math.random()*FJ),t:tipo,vida,max:vida,sigSalto:3+Math.random()*3,salto:null});}jj.sig=Math.max(n.min,n.sig-jj.t/n.ramp)*(.7+Math.random()*.6);}
       jj.sigGota-=dt;
-      if(jj.sigGota<=0){jj.gotas.push({x:40+Math.random()*(CJ*TJ-80),y:-20,meta:60+Math.random()*(FJ*TJ-120),vida:8});jj.sigGota=6+Math.random()*3;}
+      if(jj.sigGota<=0){jj.gotas.push({x:40+Math.random()*(CJ*TJ-80),y:-20,meta:60+Math.random()*(FJ*TJ-120),vida:8});jj.sigGota=jj.niv.gota+Math.random()*3;}
       jj.gotas.forEach(g=>{if(g.y<g.meta)g.y=Math.min(g.meta,g.y+60*dt);else g.vida-=dt;});
       jj.gotas=jj.gotas.filter(g=>g.vida>0);
       jj.plantas.forEach(p=>{const d=plantasJ[p.t];if(!d.cd)return;p.cd-=dt;if(p.cd>0)return;
-        if(p.t==='pincho'){if(jj.bichos.some(b=>b.f===p.f&&b.x>p.x)){jj.bolas.push({x:p.x+28,f:p.f});p.cd=d.cd;p.retro=.2;}else p.cd=0;}
+        if(p.t==='pincho'){if(jj.bichos.some(b=>b.f===p.f&&b.x>p.x)){jj.bolas.push({x:p.x+28,f:p.f,dano:1,lim:1e4});p.cd=d.cd;p.retro=.2;}else p.cd=0;}
+        else if(p.t==='seta'){if(jj.bichos.some(b=>b.f===p.f&&b.x>p.x&&b.x<p.x+TJ*3.4)){jj.bolas.push({x:p.x+22,f:p.f,dano:.8,lim:p.x+TJ*3.4,peq:true,pen:true,tocados:new Set()});p.cd=d.cd;p.retro=.2;}else p.cd=0;}
+        else if(p.t==='cereza'){explotarJ(p);p.vida=0;}
         else{jj.gotas.push({x:p.x,y:p.y,meta:p.y,vida:8});p.cd=d.cd;}});
-      jj.bolas.forEach(b=>{b.x+=320*dt;const o=jj.bichos.find(z=>z.f===b.f&&Math.abs(z.x-b.x)<30);if(o){o.vida-=1;b.x=1e4;}});
-      jj.bolas=jj.bolas.filter(b=>b.x<CJ*TJ+10);
-      for(const z of jj.bichos){const d=bichosJ[z.t],p=jj.plantas.find(q=>q.f===z.f&&Math.abs(q.x-z.x)<48&&q.x<=z.x+10);
-        if(p){p.vida-=d.dano*dt;p.golpe=.15;}else z.x-=d.vel*TJ*dt;
+      jj.bolas.forEach(b=>{b.x+=320*dt;
+        if(b.pen){jj.bichos.forEach(z=>{if(z.f===b.f&&Math.abs(z.x-b.x)<30&&!b.tocados.has(z)){b.tocados.add(z);z.vida-=b.dano;}});}
+        else{const o=jj.bichos.find(z=>z.f===b.f&&Math.abs(z.x-b.x)<30);if(o){o.vida-=b.dano;b.x=1e5;}}});
+      jj.bolas=jj.bolas.filter(b=>b.x<Math.min(b.lim,CJ*TJ+10));
+      for(const z of jj.bichos){const d=bichosJ[z.t];
+        if(z.salto){const s=z.salto;s.t+=dt;const u=Math.min(1,s.t/s.dur);z.x=s.x0+(s.x1-s.x0)*u;if(u>=1){z.f=s.f1;z.salto=null;z.sigSalto=5+Math.random()*4;}}
+        else{
+          const p=jj.plantas.find(q=>q.f===z.f&&Math.abs(q.x-z.x)<48&&q.x<=z.x+10);
+          if(p){p.vida-=d.dano*dt;p.golpe=.15;}else z.x-=d.vel*jj.niv.vel*TJ*dt;
+          if(z.t==='rana'){z.sigSalto-=dt;if(z.sigSalto<=0&&z.x>TJ*1.2){let f1=Math.floor(Math.random()*(FJ-1));if(f1>=z.f)f1++;z.salto={t:0,dur:.7,f0:z.f,f1,x0:z.x,x1:z.x};z.f=-1;}}
+        }
         if(z.x<-10){finJardin('¡Los bichos llegaron a la casa!');return;}}
       jj.bichos=jj.bichos.filter(z=>z.vida>0);jj.plantas=jj.plantas.filter(p=>p.vida>0);
     }
     function barraJ(x,y,r){if(r>=1)return;ctxJ.fillStyle='rgba(0,0,0,.45)';ctxJ.fillRect(x-20,y,40,5);ctxJ.fillStyle=r>.4?'#8be26b':'#ff7b6b';ctxJ.fillRect(x-20,y,40*Math.max(0,r),5);}
+    function explotarJ(p){jj.efectos.push({x:p.x,y:p.y,t:0});jj.bichos.forEach(z=>{if(!z.salto&&Math.abs(z.f-p.f)<=1&&Math.abs(z.x-p.x)<TJ*1.6)z.vida-=200;});}
     function rrJ(c,x,y,w,h,r){c.beginPath();if(c.roundRect)c.roundRect(x,y,w,h,r);else c.rect(x,y,w,h);}
     function caraJ(c,p,x,y,sep,boca,s=1){
       const cerrado=(jj.t+p.fase)%3.6<.14,r=5.5*s;
@@ -217,6 +240,19 @@
         c.rotate(-t*.6);
         c.fillStyle='#ffd24d';c.beginPath();c.arc(0,0,14,0,7);c.fill();
         caraJ(c,p,0,-2,5.5,false,.75);
+      }else if(p.t==='seta'){
+        c.scale(1+p.retro*.8,1-p.retro*.5);
+        c.fillStyle='#efe3c8';rrJ(c,-11,-28,22,28,8);c.fill();
+        c.fillStyle='#e8923a';c.beginPath();c.arc(0,-26,24,Math.PI,0);c.closePath();c.fill();
+        c.fillStyle='#fff3d6';[[-12,-34,4],[6,-42,4.5],[14,-31,3.2]].forEach(([x,y,r])=>{c.beginPath();c.arc(x,y,r,0,7);c.fill();});
+        caraJ(c,p,0,-14,4.5,p.retro>0,.6);
+      }else if(p.t==='cereza'){
+        const prep=1-Math.max(0,p.cd)/plantasJ.cereza.cd,s=1+prep*.25+Math.sin(t*30)*prep*.04;
+        c.translate(0,-22);c.scale(s,s);c.translate(0,22);
+        c.strokeStyle='#4a8f3f';c.lineWidth=3;c.beginPath();c.moveTo(-12,-24);c.quadraticCurveTo(-8,-46,2,-52);c.moveTo(12,-22);c.quadraticCurveTo(10,-44,2,-52);c.stroke();
+        c.fillStyle='#4fa356';c.beginPath();c.ellipse(10,-54,10,4.5,-.4,0,7);c.fill();
+        c.fillStyle='#ffd24d';c.beginPath();c.arc(2,-56,3+Math.sin(t*20)*1.5,0,7);c.fill();
+        [[-12,-16],[12,-14]].forEach(([x,y])=>{c.fillStyle=prep>.6&&Math.sin(t*25)>0?'#ff8a7a':'#d9304a';c.beginPath();c.arc(x,y,15,0,7);c.fill();c.fillStyle='rgba(255,255,255,.35)';c.beginPath();c.arc(x-5,y-6,4,0,7);c.fill();caraJ(c,p,x,y-1,4.5,prep>.4,.6);});
       }else{
         c.fillStyle='#a8743f';c.beginPath();c.ellipse(0,-28,25,29,0,0,7);c.fill();
         c.fillStyle='#7a4f27';c.beginPath();c.ellipse(0,-52,13,7,0,0,7);c.fill();
@@ -233,11 +269,14 @@
       for(let f=0;f<FJ;f++)for(let k=0;k<CJ;k++){c.fillStyle=(f+k)%2?'#7fae55':'#6f9f4a';c.fillRect(k*TJ,f*TJ,TJ,TJ);}
       c.textAlign='center';c.textBaseline='middle';
       jj.plantas.forEach(p=>{dibujarPlanta(c,p);barraJ(p.x,p.y-38,p.vida/plantasJ[p.t].vida);});
-      jj.bichos.forEach(z=>{c.font='40px serif';c.fillText(bichosJ[z.t].e,z.x,z.f*TJ+TJ/2+3+Math.sin(jj.t*9+z.x*.05)*3);barraJ(z.x,z.f*TJ+8,z.vida/bichosJ[z.t].vida);});
-      c.fillStyle='#fff7b0';jj.bolas.forEach(b=>{c.beginPath();c.arc(b.x,b.f*TJ+TJ/2,6,0,7);c.fill();});
+      jj.bichos.forEach(z=>{const s=z.salto,u=s?Math.min(1,s.t/s.dur):0,fila=s?s.f0+(s.f1-s.f0)*u:z.f,arco=s?Math.sin(Math.PI*u)*50:0;
+        if(s){c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(z.x,fila*TJ+TJ/2+22,16,5,0,0,7);c.fill();}
+        c.font='40px serif';c.fillText(bichosJ[z.t].e,z.x,fila*TJ+TJ/2+3+(s?0:Math.sin(jj.t*9+z.x*.05)*3)-arco);barraJ(z.x,fila*TJ+8-arco,z.vida/z.max);});
+      jj.bolas.forEach(b=>{c.fillStyle=b.peq?'#f6d3a0':'#fff7b0';c.beginPath();c.arc(b.x,b.f*TJ+TJ/2,b.peq?4:6,0,7);c.fill();});
       c.font='30px serif';jj.gotas.forEach(g=>c.fillText('💧',g.x,g.y));
-      document.querySelectorAll('.planta-btn').forEach(b=>b.style.setProperty('--carga',jj.recarga[b.dataset.planta]/RECARGA));
-      energiaJ.textContent=Math.floor(jj.energia);tiempoJ.textContent=Math.max(0,Math.ceil(DURACION-jj.t));
+      jj.efectos.forEach(x=>{const r=x.t/.5;c.fillStyle=x.polvo?`rgba(235,225,200,${.7*(1-r)})`:`rgba(255,${Math.round(200-120*r)},60,${.6*(1-r)})`;c.beginPath();c.arc(x.x,x.y,x.polvo?TJ*(.25+.35*r):TJ*(.6+1.1*r),0,7);c.fill();});
+      document.querySelectorAll('.planta-btn').forEach(b=>{const d=plantasJ[b.dataset.planta];if(d)b.style.setProperty('--carga',jj.recarga[b.dataset.planta]/d.rec);});
+      energiaJ.textContent=Math.floor(jj.energia);tiempoJ.textContent=jj.t<jj.niv.dur?`Oleada: ${Math.ceil(jj.niv.dur-jj.t)} s`:`Quedan ${jj.bichos.length} bichos`;
     }
     function bucleJardin(ahora){if(!jj||!jj.activo)return;const dt=Math.min(.05,(ahora-ultimoJ)/1000);ultimoJ=ahora;pasoJardin(dt);dibujarJardin();if(jj.activo)rafJ=requestAnimationFrame(bucleJardin);}
     lienzoJ.addEventListener('pointerdown',e=>{
@@ -246,14 +285,20 @@
       const g=jj.gotas.find(q=>Math.hypot(q.x-x,q.y-y)<30);
       if(g){jj.energia+=25;jj.gotas.splice(jj.gotas.indexOf(g),1);return;}
       const k=Math.floor(x/TJ),f=Math.floor(y/TJ);
-      if(k<0||k>=CJ||f<0||f>=FJ||jj.plantas.some(p=>p.c===k&&p.f===f))return;
+      if(k<0||k>=CJ||f<0||f>=FJ)return;
+      if(selJ==='pala'){const i=jj.plantas.findIndex(p=>p.c===k&&p.f===f);if(i>=0){jj.efectos.push({x:jj.plantas[i].x,y:jj.plantas[i].y,t:0,polvo:true});jj.plantas.splice(i,1);}return;}
+      if(jj.plantas.some(p=>p.c===k&&p.f===f))return;
       const d=plantasJ[selJ];
       if(jj.recarga[selJ]>0){avisoJ('Esa planta se está recargando');return;}
       if(jj.energia<d.coste){avisoJ('Te falta energía');return;}
-      jj.energia-=d.coste;jj.recarga[selJ]=RECARGA;jj.plantas.push({c:k,f,x:k*TJ+TJ/2,y:f*TJ+TJ/2,t:selJ,vida:d.vida,cd:d.cd,edad:0,fase:Math.random()*3,retro:0,golpe:0});
+      jj.energia-=d.coste;jj.recarga[selJ]=d.rec;jj.plantas.push({c:k,f,x:k*TJ+TJ/2,y:f*TJ+TJ/2,t:selJ,vida:d.vida,cd:d.cd,edad:0,fase:Math.random()*3,retro:0,golpe:0});
     });
     document.querySelectorAll('.planta-btn').forEach(b=>b.addEventListener('click',()=>{selJ=b.dataset.planta;document.querySelectorAll('.planta-btn').forEach(o=>o.setAttribute('aria-pressed',String(o===b)));}));
-    document.getElementById('iniciar-jardin').addEventListener('click',()=>{mostrarVista('jardin-juego');iniciarJardin();});
+    function prepararTienda(){selJ='pincho';document.querySelectorAll('.planta-btn').forEach(b=>{b.hidden=Number(b.dataset.nivel||1)>nivelJ;b.setAttribute('aria-pressed',String(b.dataset.planta===selJ));});}
+    function elegirNivel(n){nivelJ=n;document.querySelectorAll('.nivel-btn').forEach(b=>b.setAttribute('aria-checked',String(Number(b.dataset.nivel)===n)));document.getElementById('descripcion-nivel').textContent=descNivel[n];}
+    document.querySelectorAll('.nivel-btn').forEach(b=>b.addEventListener('click',()=>elegirNivel(Number(b.dataset.nivel))));
+    elegirNivel(1);
+    document.getElementById('iniciar-jardin').addEventListener('click',()=>{prepararTienda();mostrarVista('jardin-juego');iniciarJardin();});
     document.querySelectorAll('.volver-jardin').forEach(b=>b.addEventListener('click',pararJardin));
   </script>
 </body>
