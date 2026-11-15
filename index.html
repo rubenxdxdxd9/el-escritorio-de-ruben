@@ -63,7 +63,7 @@
     body > :not(.minecraft-scene) { position: relative; z-index: 1; }
 
     .pantalla-inicio { min-height: 100vh; display: grid; place-items: center; padding: 2rem; text-align: center; color: var(--blanco); }
-    .contenido-portada { width: min(100%,700px); padding: 2.5rem 2rem; border: 1px solid rgba(255,255,255,.2); border-radius: 24px; background: rgba(20,35,57,.48); box-shadow: 0 16px 40px rgba(0,0,0,.25); backdrop-filter: blur(7px); }
+    .contenido-portada { width: min(100%,700px); padding: 2.5rem 2rem; border: 1px solid rgba(255,255,255,.2); border-radius: 24px; background: rgba(20,35,57,.48); box-shadow: 0 16px 40px rgba(0,0,0,.2); backdrop-filter: blur(8px); }
     .badge { display: inline-block; margin-bottom: 1rem; padding: .4rem .8rem; border: 1px solid rgba(255,255,255,.25); border-radius: 999px; background: rgba(255,255,255,.12); font-size: .8rem; letter-spacing: .08em; text-transform: uppercase; }
     h1 { margin: 0; font-size: clamp(2.4rem,7vw,4.5rem); line-height: 1.1; }
     .contenido-portada p { margin: 1.2rem 0 2rem; font-size: clamp(1rem,2vw,1.3rem); color: rgba(255,255,255,.92); }
@@ -78,15 +78,15 @@
     .tablero h1, .vista-interior > h1 { margin: 0 0 .75rem; color: var(--blanco); text-align: center; text-shadow: 0 3px 14px rgba(15,23,42,.35); }
     .intro-tablero { margin: 0 0 2rem; color: rgba(255,255,255,.95); text-align: center; font-size: 1.15rem; }
     .menu-principal { width: min(100%,980px); display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1.4rem; }
-    .boton-seccion { min-height: 230px; padding: 1.6rem; display: grid; align-content: center; justify-items: center; gap: .75rem; color: var(--azul-oscuro); text-align: center; border: 1px solid rgba(255,255,255,.72); border-radius: 26px; background: rgba(255,255,255,.91); box-shadow: 0 16px 35px rgba(15,23,42,.25); backdrop-filter: blur(6px); cursor: pointer; transition: transform .2s ease,background .2s ease,box-shadow .2s ease; }
+    .boton-seccion { min-height: 230px; padding: 1.6rem; display: grid; align-content: center; justify-items: center; gap: .75rem; color: var(--azul-oscuro); text-align: center; border: 1px solid rgba(255,255,255,.6); border-radius: 24px; background: rgba(255,255,255,.92); box-shadow: 0 14px 30px rgba(15,23,42,.22); cursor: pointer; transition: transform .25s ease,background .25s ease,box-shadow .25s ease; }
     .boton-seccion:hover { transform: translateY(-8px); background: #fff; box-shadow: 0 22px 40px rgba(15,23,42,.32); }
-    .numero-seccion { display: grid; place-items: center; width: 70px; height: 70px; border-radius: 50%; color: var(--blanco); background: linear-gradient(135deg,var(--azul-medio),var(--azul-claro)); font-size: 2rem; font-weight: 800; box-shadow: 0 8px 18px rgba(22,58,95,.24); }
+    .numero-seccion { display: grid; place-items: center; width: 70px; height: 70px; border-radius: 50%; color: var(--blanco); background: linear-gradient(135deg,var(--azul-medio),var(--azul-claro)); font-size: 2rem; font-weight: 700; }
     .boton-seccion strong { font-size: clamp(1.3rem,2.2vw,1.75rem); }
     .boton-seccion small { color: var(--gris-oscuro); font-size: .95rem; }
 
     /* La navegación interior muestra solo la flecha, sin etiquetas duplicadas. */
     .barra-navegacion { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 1rem; }
-    .boton-volver { width: 54px; height: 54px; padding: 0; border: 2px solid rgba(255,255,255,.75); border-radius: 50%; color: var(--azul-medio); background: rgba(255,255,255,.94); font-size: 1.8rem; line-height: 1; box-shadow: 0 8px 20px rgba(15,23,42,.22); cursor: pointer; }
+    .boton-volver { width: 54px; height: 54px; padding: 0; border: 2px solid rgba(255,255,255,.75); border-radius: 50%; color: var(--azul-medio); background: rgba(255,255,255,.94); font-size: 1.8rem; cursor: pointer; transition: transform .2s ease; }
     .boton-volver:hover { transform: translateX(-3px); }
     .vista-interior > h1 { margin: 2rem 0 1.5rem; font-size: clamp(2rem,5vw,3.4rem); }
     .panel { padding: clamp(1.5rem,4vw,2.5rem); border: 1px solid rgba(255,255,255,.65); border-radius: 24px; background: rgba(255,255,255,.94); box-shadow: 0 14px 32px var(--sombra); }
@@ -95,13 +95,17 @@
     .sobre-mi h2 { margin: 0 0 .5rem; font-size: clamp(1.6rem,4vw,2.3rem); }
     .sobre-mi .curso { display: inline-block; margin: .4rem 0 1rem; padding: .5rem .9rem; border-radius: 999px; color: var(--azul-medio); background: #edf5fd; font-weight: 700; }
     .sobre-mi p { line-height: 1.65; }
+    .sobre-mi h3 { margin: 1.5rem 0 .5rem; color: var(--azul-medio); }
+    .sobre-mi ul { margin: .5rem 0 0; padding: 0; list-style: none; line-height: 1.8; }
+    .sobre-mi a { color: var(--azul-medio); font-weight: 700; }
+    .sobre-mi a:hover { color: var(--azul-claro); }
     .proyectos { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1.5rem; }
     .proyecto-card { min-height: 270px; padding: 2rem 1.5rem; border: 1px solid rgba(255,255,255,.7); border-radius: 24px; background: rgba(255,255,255,.94); box-shadow: 0 12px 30px var(--sombra); text-align: center; }
     .proyecto-card h2 { margin: 0; font-size: clamp(1.6rem,3vw,2.2rem); }
     .subtitulo { margin: .7rem 0 1rem; color: var(--gris-oscuro); font-size: 1.1rem; }
-    .proyecto-vacio { min-height: 130px; display: grid; place-items: center; padding: 1.3rem; border: 2px dashed #bfd3eb; border-radius: 18px; color: var(--gris-oscuro); background: rgba(237,245,253,.5); }
+    .proyecto-vacio { min-height: 130px; display: grid; place-items: center; padding: 1.3rem; border: 2px dashed #bfd3eb; border-radius: 18px; color: var(--gris-oscuro); background: rgba(237,245,253,.7); }
     .otros-lista { max-width: 800px; margin: 0 auto; display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 1rem; }
-    .otro-item { min-height: 160px; display: grid; align-content: center; justify-items: center; gap: .6rem; padding: 1.25rem; border: 1px solid rgba(255,255,255,.7); border-radius: 20px; background: rgba(255,255,255,.94); box-shadow: 0 10px 24px var(--sombra); text-align: center; }
+    .otro-item { min-height: 160px; display: grid; align-content: center; justify-items: center; gap: .6rem; padding: 1.25rem; border: 1px solid rgba(255,255,255,.7); border-radius: 20px; background: rgba(255,255,255,.94); box-shadow: 0 12px 30px var(--sombra); text-align: center; }
     .otro-item strong { font-size: 1.25rem; }
     .otro-item span { color: var(--gris-oscuro); }
 
@@ -156,8 +160,14 @@
       <div class="panel sobre-mi">
         <img class="avatar-perfil" src="avatar.png.jpg" alt="Ilustración de perfil de Rubén">
         <h2>Rubén Andrés Arnaz</h2>
-        <p class="curso">1º Bachillerato</p>
-        <p>¡Bienvenido a mi página! Aquí iré compartiendo información sobre mí y las cosas que voy creando.</p>
+        <p class="curso">1º de Bachillerato Tecnológico · IES Alfonso VI</p>
+        <p>¡Hola! Soy Rubén Andrés, tengo 16 años y estudio 1º de Bachillerato Tecnológico en el IES Alfonso VI.</p>
+        <h3>Mis aficiones</h3>
+        <p>Me gusta tocar la trompeta. Formo parte de estas agrupaciones musicales:</p>
+        <ul>
+          <li><a href="https://www.instagram.com/asociacionmusicalvilladeolmedo?utm_source=ig_web_button_share_sheet&amp;xtok=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">Banda Asociación Musical Villa de Olmedo</a></li>
+          <li><a href="https://www.instagram.com/charangaeltrasto_?utm_source=ig_web_button_share_sheet&amp;mdxt=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer">Charanga El Trasto de Pedrajas</a></li>
+        </ul>
       </div>
     </section>
 
