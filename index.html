@@ -85,7 +85,6 @@
     .boton-seccion strong { font-size: clamp(1.3rem,2.2vw,1.75rem); }
     .boton-seccion small { color: var(--gris-oscuro); font-size: .95rem; }
 
-    /* La navegación interior muestra solo la flecha, sin etiquetas duplicadas. */
     .barra-navegacion { display: flex; justify-content: flex-start; align-items: center; margin-bottom: 1rem; }
     .boton-volver { width: 54px; height: 54px; padding: 0; border: 2px solid rgba(255,255,255,.75); border-radius: 50%; color: var(--azul-medio); background: rgba(255,255,255,.94); font-size: 1.8rem; cursor: pointer; transition: transform .2s ease; }
     .boton-volver:hover { transform: translateX(-3px); }
@@ -113,13 +112,19 @@
     .juego-enlace { width: 100%; padding: 0; border: 0; color: inherit; font: inherit; cursor: pointer; }
     .juego-enlace:hover { transform: translateY(-4px); background: #fff; }
     .juego-enlace:focus-visible { outline: 3px solid #ffdc73; outline-offset: 4px; }
+
     .panel-juego { max-width: 850px; margin: 0 auto; padding: 1.25rem; border: 1px solid rgba(255,255,255,.65); border-radius: 24px; background: rgba(255,255,255,.94); box-shadow: 0 14px 32px var(--sombra); text-align: center; }
     .marcador { margin: 0 0 1rem; color: var(--azul-medio); font-size: 1.35rem; font-weight: 700; }
-    .zona-estrellas { position: relative; min-height: 380px; overflow: hidden; border: 2px solid rgba(255,255,255,.55); border-radius: 18px; background-color: #101a3c; background-image: radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.8px), radial-gradient(circle, rgba(193,215,255,.8) 1px, transparent 1.8px), linear-gradient(180deg,#101a3c,#283c70); background-size: 47px 43px, 73px 67px, 100% 100%; background-position: 7px 12px, 28px 31px, 0 0; }
+    .zona-estrellas { position: relative; min-height: 380px; overflow: hidden; border: 2px solid rgba(255,255,255,.55); border-radius: 18px; background-color: #101a3c; background-image: radial-gradient(circle, rgba(255,255,255,.9) 1px, transparent 1.8px), radial-gradient(circle, rgba(193,215,255,.8) 1px, transparent 1.8px), linear-gradient(180deg,#101a3c,#283c70); background-size: 47px 43px, 73px 67px, 100% 100%; background-position: 7px 12px, 28px 31px, 0 0; animation: estrellas-se-desplazan 35s linear infinite; }
     .estrella-clic { position: absolute; display: grid; place-items: center; width: 52px; height: 52px; padding: 0; border: 0; background: transparent; color: #ffdf57; font-size: 2.6rem; line-height: 1; cursor: pointer; filter: drop-shadow(0 0 10px rgba(255,220,70,.85)); transform: translate(-50%,-50%); transition: transform .15s ease; }
     .estrella-clic:hover { transform: translate(-50%,-50%) scale(1.25); }
     .estrella-clic:focus-visible { outline: 2px solid white; outline-offset: 2px; border-radius: 50%; }
     .instruccion-juego { margin: 1rem 0 .25rem; color: var(--gris-oscuro); }
+    .reglas-juego { max-width: 700px; margin: 0 auto; text-align: center; }
+    .reglas-juego h2 { margin-top: 0; color: var(--azul-medio); }
+    .reglas-juego ul { display: inline-block; margin: .5rem 0 1rem; padding-left: 1.4rem; text-align: left; line-height: 1.8; }
+    .mejor-puntuacion { margin: .75rem 0 1.25rem; color: var(--azul-medio); font-size: 1.2rem; font-weight: 700; }
+    .btn-iniciar-juego { background: var(--azul-medio); color: var(--blanco); }
 
     @media (max-width: 760px) {
       .menu-principal { grid-template-columns: 1fr; max-width: 460px; }
@@ -133,12 +138,15 @@
       .zona-estrellas { min-height: 55vh; }
       main { padding: 1.25rem 1rem 3rem; }
     }
-    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
+    }
     @keyframes cielo-cambia { from { background-position: 0 0; } to { background-position: 0 100%; } }
     @keyframes estrellas-brillan { from { opacity: .25; } to { opacity: .8; } }
     @keyframes sol-desciende { from { transform: translateY(-5px); } to { transform: translateY(70px); } }
     @keyframes nubes-viajan { from { translate: 0 0; } to { translate: calc(100vw + 400px) 0; } }
     @keyframes montanas-se-mueven { from { background-position: 0 0,150px 0; } to { background-position: 55px 0,90px 0; } }
+    @keyframes estrellas-se-desplazan { from { background-position: 7px 12px,28px 31px,0 0; } to { background-position: 54px 55px,101px 98px,0 0; } }
   </style>
 </head>
 <body>
@@ -198,9 +206,7 @@
       <div class="barra-navegacion"><button class="boton-volver" type="button" aria-label="Volver al menú">←</button></div>
       <h1 id="titulo-otros" tabindex="-1">Otros</h1>
       <button class="boton-seccion boton-juegos" type="button" data-vista="juegos">
-        <span class="numero-seccion">🎮</span>
-        <strong>Juegos</strong>
-        <small>Entra para ver los juegos</small>
+        <span class="numero-seccion">🎮</span><strong>Juegos</strong><small>Entra para ver los juegos</small>
       </button>
     </section>
 
@@ -208,7 +214,7 @@
       <div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="otros" aria-label="Volver a Otros">←</button></div>
       <h1 id="titulo-juegos" tabindex="-1">Juegos</h1>
       <div class="otros-lista" aria-label="Juegos disponibles">
-        <button class="otro-item juego-enlace" type="button" data-vista="juego-estrellas" aria-label="Jugar a Cazaestrellas">
+        <button class="otro-item juego-enlace" type="button" data-vista="juego-instrucciones" aria-label="Ver reglas de Cazaestrellas">
           <strong>⭐ Cazaestrellas</strong><span>Pulsa las estrellas amarillas y suma puntos</span>
         </button>
         <article class="otro-item"><strong>Juego 2</strong><span>Próximamente</span></article>
@@ -216,8 +222,23 @@
       </div>
     </section>
 
-    <section class="vista vista-interior" id="vista-juego-estrellas" aria-labelledby="titulo-juego-estrellas" hidden>
+    <section class="vista vista-interior" id="vista-juego-instrucciones" aria-labelledby="titulo-juego-instrucciones" hidden>
       <div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="juegos" aria-label="Volver a la lista de juegos">←</button></div>
+      <h1 id="titulo-juego-instrucciones" tabindex="-1">Cazaestrellas</h1>
+      <div class="panel reglas-juego">
+        <h2>Reglas del juego</h2>
+        <ul>
+          <li>Pulsa la estrella amarilla cada vez que aparezca.</li>
+          <li>Cada estrella suma 1 punto.</li>
+          <li>¡Intenta superar tu mejor puntuación!</li>
+        </ul>
+        <p class="mejor-puntuacion">Mejor puntuación: <span id="mejor-puntuacion">0</span></p>
+        <button class="btn btn-iniciar-juego" type="button" id="iniciar-juego">Iniciar juego</button>
+      </div>
+    </section>
+
+    <section class="vista vista-interior" id="vista-juego-estrellas" aria-labelledby="titulo-juego-estrellas" hidden>
+      <div class="barra-navegacion"><button class="boton-volver" type="button" data-volver="juego-instrucciones" aria-label="Volver a las reglas">←</button></div>
       <h1 id="titulo-juego-estrellas" tabindex="-1">Cazaestrellas</h1>
       <div class="panel-juego">
         <p class="marcador" aria-live="polite">Puntos: <span id="puntuacion">0</span></p>
@@ -238,6 +259,7 @@
       proyectos: document.getElementById('vista-proyectos'),
       otros: document.getElementById('vista-otros'),
       juegos: document.getElementById('vista-juegos'),
+      'juego-instrucciones': document.getElementById('vista-juego-instrucciones'),
       'juego-estrellas': document.getElementById('vista-juego-estrellas')
     };
 
@@ -261,7 +283,6 @@
         mostrarVista(destino);
         const titulo = document.getElementById(`titulo-${destino}`);
         if (titulo) titulo.focus();
-        if (destino === 'juego-estrellas') document.getElementById('estrella-clic').focus();
       });
     });
 
@@ -272,6 +293,7 @@
         const selectorEnfoque = {
           otros: '#vista-otros .boton-juegos',
           juegos: '#vista-juegos .juego-enlace',
+          'juego-instrucciones': '#vista-juego-instrucciones #iniciar-juego',
           inicio: '#vista-inicio .boton-seccion'
         }[destino];
         document.querySelector(selectorEnfoque).focus();
@@ -281,7 +303,20 @@
     const zonaEstrellas = document.getElementById('zona-estrellas');
     const estrellaClic = document.getElementById('estrella-clic');
     const puntuacion = document.getElementById('puntuacion');
+    const mejorPuntuacion = document.getElementById('mejor-puntuacion');
+    const claveMejorPuntuacion = 'cazaestrellas-mejor-puntuacion';
     let puntos = 0;
+
+    function leerMejorPuntuacion() {
+      try {
+        const mejor = Number(localStorage.getItem(claveMejorPuntuacion)) || 0;
+        mejorPuntuacion.textContent = mejor;
+        return mejor;
+      } catch {
+        mejorPuntuacion.textContent = '0';
+        return 0;
+      }
+    }
 
     function moverEstrella() {
       const margen = 32;
@@ -291,13 +326,27 @@
       estrellaClic.style.top = `${y}px`;
     }
 
+    document.getElementById('iniciar-juego').addEventListener('click', () => {
+      puntos = 0;
+      puntuacion.textContent = puntos;
+      mostrarVista('juego-estrellas');
+      moverEstrella();
+      estrellaClic.focus();
+    });
+
     estrellaClic.addEventListener('click', () => {
       puntos += 1;
       puntuacion.textContent = puntos;
+      const mejor = leerMejorPuntuacion();
+      if (puntos > mejor) {
+        mejorPuntuacion.textContent = puntos;
+        try { localStorage.setItem(claveMejorPuntuacion, String(puntos)); } catch { /* La partida continúa aunque el navegador no guarde datos. */ }
+      }
       moverEstrella();
     });
 
     window.addEventListener('resize', moverEstrella);
+    leerMejorPuntuacion();
     moverEstrella();
   </script>
 </body>
